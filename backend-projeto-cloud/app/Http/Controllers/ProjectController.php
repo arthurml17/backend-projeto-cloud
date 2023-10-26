@@ -85,7 +85,7 @@ class ProjectController extends Controller
     {
         //
         $data = $request->all();
-        $project = Project->find($id);
+        $project = Project::find($id);
         if($project){
             $project->update($data);
             return response()->json(['data' => 'Project updated successfully', 'status' => true], 200);
@@ -101,7 +101,7 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         //
-        $project = Project->find($id);
+        $project = Project::find($id);
         if($project){
             $project->delete();
             return response()->json(['data' => 'Project deleted successfully', 'status' => true], 200);

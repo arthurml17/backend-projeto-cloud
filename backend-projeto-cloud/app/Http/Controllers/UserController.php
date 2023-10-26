@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -12,6 +13,12 @@ class UserController extends Controller
     public function index()
     {
         //
+        $users = User::all();
+        if($users){
+            return response()->json(['data' => $users, 'status' => true], 200);
+        }else{
+            return response()->json(['data' => 'Failed to show users', 'status' => false], 500);
+        }
     }
 
     /**
@@ -28,6 +35,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->all();
+        $user = User::create($data);
+        if($user){
+            return response()->json(['data' => 'User created successfully', 'status' => true], 200);
+        }else{
+            return response()->json(['data' => 'Failed to create user', 'status' => false], 500);
+        }
     }
 
     /**
@@ -36,6 +50,12 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
+        $user = User::find($id);
+        if($user){
+            return response()->json(['data' => $user, 'status' => true], 200);
+        }else{
+            return response()->json(['data' => 'Failed to show user', 'status' => false], 500);
+        }
     }
 
     /**
@@ -52,6 +72,14 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $data = $request->all();
+        $user = User::find($id);
+        if($user){
+            $user->update($data);
+            return response()->json(['data' => 'User updated successfully', 'status' => true], 200);
+        }else{
+            return response()->json(['data' => 'Failed to update user', 'status' => false], 500);
+        }
     }
 
     /**
@@ -60,5 +88,12 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        $user = User::find($id);
+        if($user){
+            $user->delete();
+            return response()->json(['data' => 'User deleted successfully', 'status' => true], 200);
+        }else{
+            return response()->json(['data' => 'Failed to delete user', 'status' => false], 500);
+        }
     }
 }

@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    'connection' => env('SESSION_CONNECTION', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -198,4 +198,15 @@ return [
 
     'same_site' => 'lax',
 
+    'max_lifetime' => 120, // Maximum lifetime of the session
+
+    'throttle' => 60, // Rate limiting for garbage collection
+    'middleware' => [
+        // Middleware for handling session operations
+        Illuminate\Session\Middleware\StartSession::class, // Starts the session
+        Illuminate\Session\Middleware\SessionGuard::class, // Sets up the session guard
+        Illuminate\Session\Middleware\SessionLock::class, // Prevents session concurrency issues
+        Illuminate\Session\Middleware\SessionFlush::class, // Clears the session data when necessary
+        Illuminate\Session\Middleware\ClearInvalidSessions::class, // Clears invalid sessions during garbage collection
+    ]
 ];

@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\Kernel;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
+    
+
     /**
      * Display a listing of the resource.
      */
@@ -19,7 +22,7 @@ class ProjectController extends Controller
         if($projects){
             return response()->json(['data' => $projects, 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to show projects', 'status' => true], 500);
+            return response()->json(['data' => 'Projects not found', 'status' => false], 404);
         }
     }
 
@@ -29,7 +32,7 @@ class ProjectController extends Controller
         if($projects){
             return response()->json(['data' => $projects, 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to show projects', 'status' => true], 500);
+            return response()->json(['data' => 'Projects not found', 'status' => false], 404);
         }
     }
 
@@ -39,7 +42,7 @@ class ProjectController extends Controller
         if($projects){
             return response()->json(['data' => $projects, 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to show projects', 'status' => true], 500);
+            return response()->json(['data' => 'Projects not found', 'status' => false], 404);
         }
     }
 
@@ -57,6 +60,21 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'value' => 'required',
+            'status' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                 'data' => "Fill in all fields",
+                 'status' => false
+            ], 400);
+        }
+
         $data = $request->all();
         $project = Project::create($data);
         if($project){
@@ -76,7 +94,7 @@ class ProjectController extends Controller
         if($project){
             return response()->json(['data' => $project, 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to show project', 'status' => true], 500);
+            return response()->json(['data' => 'Project not found', 'status' => false], 404);
         }
     }
 
@@ -92,7 +110,7 @@ class ProjectController extends Controller
             $project->update($data);
             return response()->json(['data' => 'Project updated successfully', 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to update project', 'status' => true], 500);
+            return response()->json(['data' => 'Project not found', 'status' => false], 404);
         }
 
     }
@@ -108,7 +126,7 @@ class ProjectController extends Controller
             $project->delete();
             return response()->json(['data' => 'Project deleted successfully', 'status' => true], 200);
         }else{
-            return response()->json(['data' => 'Failed to delete project', 'status' => true], 500);
+            return response()->json(['data' => 'Project not found', 'status' => false], 404);
         }
     }
 }

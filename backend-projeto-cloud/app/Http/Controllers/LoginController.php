@@ -19,7 +19,7 @@ class LoginController extends Controller
         if($login){
             return response()->json(['data' => 'User logged successfully', 'status' => true], 200);
         }else{
-            return response()->json(["data" => 'Failed to log in User', 'status' => false], 500);
+            return response()->json(["data" => 'Invalid crendecials, please try again', 'status' => false], 401);
         }
 
     }

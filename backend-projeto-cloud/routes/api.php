@@ -22,6 +22,8 @@ use App\Http\Controllers\LoginController;
 Route::get('/project', [ProjectController::class, 'index']);
 Route::get('/project/{id}', [ProjectController::class, 'show']);
 
+// Route::get('/project/{id}/edit', [ProjectController::class, 'edit']);
+
 Route::get('/projects/active', [ProjectController::class, 'getActive']);
 Route::get('/projects/inactive', [ProjectController::class, 'getInactive']);
 
@@ -48,6 +50,6 @@ Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 Route::post('/login', [LoginController::class, 'auth']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

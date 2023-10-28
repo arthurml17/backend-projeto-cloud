@@ -1,9 +1,21 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <div class="welcome">
+      <h1>Welcome to the Global Project Management System</h1>
+    </div>
   </main>
 </template>
+
+<style>
+  .welcome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+  }
+
+</style>

@@ -6,6 +6,9 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
+use Laravel\Sanctum\NewAccessToken;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Auth\GenericUser;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,7 +51,27 @@ Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 /******************** End routes for users ********************/
 
-Route::post('/login', [LoginController::class, 'auth']);
+/******************** Routes for login ********************/
+
+// Route::post('/login', [LoginController::class, 'auth']);
+
+Route::post('/login', function (Request $request) {
+
+    $data = $request->only('email', 'password');
+
+    if(Auth::attempt($data)){
+        $user = $request->user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 200);
+    }else{    
+        return response()->json(['data' => 'Invalid user, please try again', 'status' => false], 401);
+    }
+});
+
+/******************** End routes for login ********************/
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

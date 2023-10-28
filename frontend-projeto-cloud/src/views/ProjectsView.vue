@@ -10,7 +10,7 @@
         </h4>  
       </div>
       <div class="card-body">
-        <table class="table table">
+        <table class="table table" id="projectsTable">
           <thead>
             <tr>
               <th>#</th>
@@ -22,7 +22,7 @@
               <th><!--Action--></th>
             </tr>
           </thead>
-          <tbody v-if="this.projects.length > 0">
+          <tbody v-if="this.projects.length > 0"  id="table">
             <tr v-for="(project, index) in this.projects" :key="index">
               <td>{{ project.id }}</td>
               <td>{{ project.name }}</td>
@@ -43,36 +43,56 @@
               <td colspan="7">Loading...</td>
             </tr>
           </tbody>
+          
         </table>
+        <tfoot>
+          <pagination :source="pagination" @navigate="navigate"></pagination>  
+        </tfoot>
       </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 
 </style>
 
 <script>
 import axios from 'axios'
-
+import pagination from '../components/Pagination.vue'
 
 export default{
   name: 'projects',
+  components:{
+    pagination
+  },
   data(){
     return{
-      projects: []
+      projects: [],
+      pagination: {}
     }
   },
   mounted(){
-    // console.log('opa');
     this.getProjects();
   },
   methods: {
-    getProjects(){
-      axios.get('http://localhost:8000/api/project').then(response => {
-        this.projects = response.data.data;
+    getProjects(page = null){
+      if(page != null){
+        axios.get('http://localhost:8000/api/project?page='+page).then(response => {
+        this.projects = response.data.data.data;
+        this.pagination = response.data.data;
       });
+      }else{
+        axios.get('http://localhost:8000/api/project').then(response => {
+        this.projects = response.data.data.data;
+        this.pagination = response.data.data;
+      });
+      }
+      
+    },
+    navigate(page){
+      // console.log(page);
+      this.getProjects(page);
     },
     deleteProject(projectId){
       if(confirm('Are you sure you want to delete this project?')){

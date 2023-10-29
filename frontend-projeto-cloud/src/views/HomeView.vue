@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <main>
     <div class="welcome">
@@ -17,5 +13,8 @@
     align-items: center;
     margin-top: 10%;
   }
-
 </style>
+
+<script setup>
+
+</script>

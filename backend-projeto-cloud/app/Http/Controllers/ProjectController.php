@@ -20,7 +20,6 @@ class ProjectController extends Controller
     public function index()
     {
         //
-        // $projects = Project::all();
         $projects = Project::paginate(5);
         if($projects){
             return response()->json(['data' => $projects, 'status' => true], 200);

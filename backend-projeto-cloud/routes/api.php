@@ -53,20 +53,7 @@ Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 /******************** Routes for login ********************/
 
-// Route::post('/login', [LoginController::class, 'auth']);
-
-Route::post('/login', function (Request $request) {
-
-    $data = $request->only('email', 'password');
-
-    if(Auth::attempt($data)){
-        $user = $request->user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 200);
-    }else{    
-        return response()->json(['data' => 'Invalid user, please try again', 'status' => false], 401);
-    }
-});
+Route::post('/login', [LoginController::class, 'auth']);
 
 /******************** End routes for login ********************/
 

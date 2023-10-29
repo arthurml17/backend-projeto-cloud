@@ -79,16 +79,15 @@ export default{
     getProjects(page = null){
       if(page != null){
         axios.get('http://localhost:8000/api/project?page='+page).then(response => {
-        this.projects = response.data.data.data;
-        this.pagination = response.data.data;
-      });
+          this.projects = response.data.data.data;
+          this.pagination = response.data.data;
+        });
       }else{
         axios.get('http://localhost:8000/api/project').then(response => {
-        this.projects = response.data.data.data;
-        this.pagination = response.data.data;
-      });
+          this.projects = response.data.data.data;
+          this.pagination = response.data.data;
+        });
       }
-      
     },
     navigate(page){
       // console.log(page);
@@ -99,7 +98,7 @@ export default{
         axios.delete('http://localhost:8000/api/project/'+projectId).then(response =>{
           console.log(response.data)
           alert(response.data.data);
-          location.reload()
+          location.reload();
         }).catch( function (error) {
             if (error.response) {
                 if(error.response.status == 404){

@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['index', 'show', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -46,20 +46,28 @@
           
         </table>
         <tfoot>
-          <pagination :source="pagination" @navigate="navigate"></pagination>  
+          <div>
+            <pagination :source="pagination" @navigate="navigate"></pagination>  
+          </div>
         </tfoot>
       </div>
+      <button type="button" @click="logout()" class="btn_logout btn btn-light float-end">Logout</button>
     </div>
   </div>
+  
 </template>
 
 <style scoped>
+
+
 
 </style>
 
 <script>
 import axios from 'axios'
 import pagination from '../components/Pagination.vue'
+
+console.log(localStorage)
 
 export default{
   name: 'projects',
@@ -69,7 +77,13 @@ export default{
   data(){
     return{
       projects: [],
-      pagination: {}
+      pagination: {},
+      model:{
+        logout:{
+          token_id:localStorage.getItem('token_id')
+        }
+      }
+
     }
   },
   mounted(){
@@ -78,14 +92,29 @@ export default{
   methods: {
     getProjects(page = null){
       if(page != null){
-        axios.get('http://localhost:8000/api/project?page='+page).then(response => {
+        axios.get('http://localhost:8000/api/project?page='+page, {
+                headers: {
+                  "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+                }
+              }).then(response => {
           this.projects = response.data.data.data;
           this.pagination = response.data.data;
         });
       }else{
-        axios.get('http://localhost:8000/api/project').then(response => {
+        axios.get('http://localhost:8000/api/project', {
+                headers: {
+                  "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+                }
+              }).then(response => {
           this.projects = response.data.data.data;
           this.pagination = response.data.data;
+          
+        }).catch( function (error) {
+            if (error.response) {
+                if(error.response.status == 401){
+                    alert("You need to be logged to see the projects");
+                }
+            }
         });
       }
     },
@@ -95,18 +124,28 @@ export default{
     },
     deleteProject(projectId){
       if(confirm('Are you sure you want to delete this project?')){
-        axios.delete('http://localhost:8000/api/project/'+projectId).then(response =>{
+        axios.delete('http://localhost:8000/api/project/'+projectId, {
+          headers: {
+            "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+          }
+        }).then(response =>{
+            console.log(response.data)
+            alert(response.data.data);
+            location.reload();
+        })
+      }
+    },
+    logout(){
+      console.log(localStorage)
+      //
+      axios.post('http://localhost:8000/api/logout', this.model.logout ,{
+        headers: {
+          "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+        }}).then(response =>{
           console.log(response.data)
           alert(response.data.data);
-          location.reload();
-        }).catch( function (error) {
-            if (error.response) {
-                if(error.response.status == 404){
-                    alert(error.response.data.data);
-                }
-            }
+          location.href = "http://localhost:5173"
         });
-      }
     }
   }
 }

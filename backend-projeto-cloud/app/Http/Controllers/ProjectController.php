@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
-    
+    function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
 
     /**
      * Display a listing of the resource.

@@ -104,7 +104,7 @@
 <script>
 import axios from 'axios';
 
-localStorage.setItem('logged', false);
+// localStorage.setItem('logged', false);
 
 export default{
     name: 'login',
@@ -129,7 +129,8 @@ export default{
             axios.post('http://localhost:8000/api/login', this.model.user).then(response =>{
                 console.log(response.data)
                 alert(response.data.data);
-                localStorage.setItem('logged',true);
+                localStorage.setItem('token_id', response.data.token_id);
+                localStorage.setItem('auth_token', response.data.auth_token);
                 this.model.user = {
                     email:'',
                     password:''
@@ -137,10 +138,10 @@ export default{
                 location.href = "http://localhost:5173/projects"
             }).catch( function (error) {
                 if (error.response) {
-                    localStorage.setItem('logged',false);
                     if(error.response.status == 401){
                         console.log(error.response.data);
                         alert(error.response.data.data);
+                        localStorage.setItem('logged',false);
                     }
                 }
             });

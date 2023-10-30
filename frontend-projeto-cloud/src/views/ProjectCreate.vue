@@ -61,7 +61,10 @@ export default{
     methods: {
         addProject(){
             var $this = this;
-            axios.post('http://localhost:8000/api/project', this.model.project).then(response =>{
+            axios.post('http://localhost:8000/api/project', this.model.project,{
+                headers: {
+                  "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+                }}).then(response =>{
                 
                 console.log(response.data)
                 alert(response.data.data);
@@ -74,12 +77,6 @@ export default{
                     status:''
                 }
                 location.href = "http://localhost:5173/projects"
-            }).catch( function (error) {
-                if (error.response) {
-                    if(error.response.status == 400){
-                        alert(error.response.data.data);
-                    }
-                }
             });
         }
     }

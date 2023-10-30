@@ -71,7 +71,10 @@ export default{
     },
     methods: {
         getProjectData(projectId){
-            axios.get('http://localhost:8000/api/project/'+projectId).then(response =>{
+            axios.get('http://localhost:8000/api/project/'+projectId, {
+                headers: {
+                  "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+                }}).then(response =>{
                 console.log(response.data.data);
                 this.model.project.name = response.data.data.name;
                 this.model.project.start_date = response.data.data.start_date;
@@ -88,7 +91,10 @@ export default{
         },
         updateProject(){
             var $this = this;
-            axios.put('http://localhost:8000/api/project/'+this.projectId, this.model.project).then(response =>{
+            axios.put('http://localhost:8000/api/project/'+this.projectId, this.model.project,{
+                headers: {
+                  "Authorization": 'Bearer '+localStorage.getItem('auth_token')
+                }} ).then(response =>{
                 
                 console.log(response.data)
                 alert(response.data.data);

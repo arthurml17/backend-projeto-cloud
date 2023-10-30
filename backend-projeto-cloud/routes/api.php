@@ -53,6 +53,8 @@ Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 Route::post('/login', [LoginController::class, 'auth']);
 
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
+
 /******************** End routes for login ********************/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

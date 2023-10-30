@@ -30,12 +30,13 @@ This project is a Company Project Management System designed to facilitate proje
 
 5. Start Laravel server:
    ```
-   cd <project-directory>
+   cd <backend-projeto-cloud>
    php artisan serve
    ```
 
 6. Start Vue server:
    ```
+   cd <frontend-projeto-cloud>
    npm run dev
    ```
 

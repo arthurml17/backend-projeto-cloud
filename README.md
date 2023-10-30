@@ -1,8 +1,4 @@
-Certainly! Here's the updated section in the documentation:
-
----
-
-# Project Documentation: Company Project Management System
+# Project Documentation: Global Project Management System
 
 ## 1. Introduction
 
@@ -73,5 +69,3 @@ Planned improvement for the future includes enhancing the user interface and imp
 The Company Project Management System provides a foundation for project management, aiding business managers in overseeing and handling various projects within the company.
 
 ---
-
-This update includes an important note in the Usage Guide section, indicating that users will be automatically logged out after 12 minutes of inactivity for security purposes.
